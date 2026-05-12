@@ -482,6 +482,61 @@ body::after {
   .disclaimer-list { grid-template-columns: 1fr; }
 }
 
+/* ─── FAQ ─── */
+.faq-wrap {
+  max-width: 720px;
+  margin: 50px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.faq-item {
+  background: var(--dark2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.faq-item:hover { border-color: rgba(201,168,76,0.35); }
+.faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: right;
+  padding: 20px 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.faq-q .faq-icon {
+  color: var(--gold);
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: transform 0.3s;
+  font-style: normal;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+  font-size: 14px;
+  color: #999;
+  line-height: 1.9;
+  padding: 0 24px;
+}
+.faq-item.open .faq-a {
+  max-height: 200px;
+  padding: 0 24px 20px;
+}
+
 footer {
   border-top: 1px solid var(--border);
   padding: 30px 24px;
@@ -542,7 +597,23 @@ footer span { color: var(--gold); }
           <span class="icon">✦</span>
           <div>
             <span class="feat-title">برنامج تدريبي مخصص + خطة كارديو</span>
-            <span class="feat-desc">مصمم حسب هدفك، مستواك، ونمط حياتك بالصور و الفيديوهات — وليس برنامج جاهز فقط</span>
+            <span class="feat-desc">مصمم حسب هدفك، مستواك، ونمط حياتك — وليس برنامج جاهز فقط</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">نظام غذائي مرن + مكملات مبنية على احتياجك</span>
+            <span class="feat-desc">ماكرو + سعرات + توقيت الوجبات — مصمم خصيصاً لجسمك وهدفك، مع مرونة حقيقية تخليك تلتزم بدون ما تحس بالحرمان</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">متابعة يومية مستمرة</span>
+            <span class="feat-desc">تواصل مباشر كل يوم — أجاوب على أسئلتك، أتابع أدائك، وأضمن إنك ما تقف وحدك في أي خطوة</span>
           </div>
         </li>
 
@@ -551,14 +622,6 @@ footer span { color: var(--gold); }
           <div>
             <span class="feat-title">تحليل الأداء وتصحيح الأخطاء</span>
             <span class="feat-desc">مراجعة فيديوهات تمارينك + إرشادات مستمرة لتفادي الإصابات وتحسين النتائج</span>
-          </div>
-        </li>
-
-        <li>
-          <span class="icon">✦</span>
-          <div>
-            <span class="feat-title">نظام غذائي مرن + مكملات مبنية على احتياجك</span>
-            <span class="feat-desc">حسابات دقيقة وعلمية و تحديد وقت الوجبات و الايام المفتوحة— مش عشوائي ومش نسخ ولصق</span>
           </div>
         </li>
 
@@ -594,7 +657,7 @@ footer span { color: var(--gold); }
       </ul>
 
       <a href="https://www.instagram.com/coach__anis" class="btn-pkg btn-solid" target="_blank">
-        اشترك الآن · Join Now
+        ابدأ رحلتك · Start Today
       </a>
 
     </div>
@@ -628,6 +691,58 @@ footer span { color: var(--gold); }
       <div class="step-title">النتائج</div>
       <div class="step-desc">متابعة وتعديل مستمر حتى تصل لهدفك</div>
     </div>
+  </div>
+</div>
+
+<!-- ═══ FAQ ═══ -->
+<div class="section">
+  <div class="section-label text-center">FAQ · أسئلة شائعة</div>
+  <div class="section-title text-center">
+    عندك سؤال؟<br><span style="font-size:0.65em;">We've Got Answers</span>
+  </div>
+
+  <div class="faq-wrap">
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>هل البرنامج يناسبني؟</span>
+        <i class="faq-icon">+</i>
+      </button>
+      <div class="faq-a">نعم — البرنامج يتكيف مع مستواك الحالي سواء كنت مبتدئاً أو متوسطاً أو متقدماً. الاستبيان الأولي يحدد نقطة انطلاقك الصحيحة بدون أي غلط.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>كيف يوصلني البرنامج؟</span>
+        <i class="faq-icon">+</i>
+      </button>
+      <div class="faq-a">بعد التواصل وملء الاستبيان، يصلك برنامجك المخصص عبر ادوات احترافية — كل شيء منظم في مكان واحد من التمارين إلى التغذية والمتابعة اليومية.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>كم من الوقت حتى أرى نتائج؟</span>
+        <i class="faq-icon">+</i>
+      </button>
+      <div class="faq-a">يختلف حسب الهدف والالتزام، لكن الغالبية يلاحظون فرقاً واضحاً خلال أول 4 أسابيع — سواء في الطاقة، الأداء، أو التغير الجسدي.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>كم مرة في الأسبوع أتدرب؟</span>
+        <i class="faq-icon">+</i>
+      </button>
+      <div class="faq-a">على حسب نمط حياتك والأيام اللي عندك — لا يوجد عدد ثابت، البرنامج يتكيف معك مش أنت اللي تتكيف معه.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>هل يمكنني تغيير التمارين إذا ما عجبتني؟</span>
+        <i class="faq-icon">+</i>
+      </button>
+      <div class="faq-a">نعم — البرنامج مرن وليس ثابتاً. إذا كان تمرين لا يناسبك لأي سبب، نستبدله بما يحقق نفس الهدف.</div>
+    </div>
+
   </div>
 </div>
 
@@ -688,4 +803,12 @@ footer span { color: var(--gold); }
 </footer>
 
 </body>
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
 </html>
