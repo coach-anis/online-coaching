@@ -44,11 +44,45 @@ body {
   overflow-x: hidden;
 }
 
+/* Global grid lines — fixed, covers entire page */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(201,168,76,0.028) 80px, rgba(201,168,76,0.028) 81px),
+    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(201,168,76,0.028) 80px, rgba(201,168,76,0.028) 81px);
+  pointer-events:none; z-index:0;
+}
+
+/* Noise texture — fixed, covers entire page */
 body::after {
   content:'';
   position:fixed; inset:0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
   pointer-events:none; z-index:999; opacity:.5;
+}
+
+/* Ambient gold glow — fixed, covers entire page */
+.site-ambient {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 0% 50%,   rgba(201,168,76,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 80%, rgba(201,168,76,0.05) 0%, transparent 55%);
+  animation: ambientShift 18s ease-in-out infinite alternate;
+}
+@keyframes ambientShift {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Ensure all page content renders above global background layers */
+.hero, .section, .cta-section, .disclaimer-section, footer, .faq-wrap, .steps, .pkg {
+  position: relative;
+  z-index: 2;
 }
 
 /* ─── HERO ─── */
@@ -66,57 +100,149 @@ body::after {
 .hero-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 10%, rgba(201,168,76,0.10) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 30% at 80% 80%, rgba(201,168,76,0.04) 0%, transparent 60%);
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(201,168,76,0.13) 0%, transparent 60%);
 }
-.hero-lines {
-  position: absolute; inset: 0;
-  background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(201,168,76,0.025) 80px, rgba(201,168,76,0.025) 81px),
-    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(201,168,76,0.025) 80px, rgba(201,168,76,0.025) 81px);
+
+/* Glowing orb behind title */
+.hero-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glowPulse 4s ease-in-out infinite;
 }
+@keyframes glowPulse {
+  0%,100% { transform: translate(-50%,-55%) scale(1); opacity:1; }
+  50%      { transform: translate(-50%,-55%) scale(1.12); opacity:0.7; }
+}
+
 .hero-tag {
   font-family: 'Bebas Neue', sans-serif;
-  letter-spacing: 6px;
-  font-size: 11px;
-  color: var(--gold);
-  margin-bottom: 20px;
+  letter-spacing: 8px;
+  font-size: 13px;
+  color: var(--gold2);
+  margin-bottom: 28px;
   opacity: 0;
   animation: rise 0.8s 0.2s forwards;
+  position: relative;
 }
+.hero-tag::before, .hero-tag::after {
+  content: '——';
+  color: rgba(201,168,76,0.4);
+  margin: 0 12px;
+  letter-spacing: 2px;
+}
+
+/* BIG main title */
 .hero h1 {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(52px, 10vw, 100px);
-  line-height: 0.92;
-  letter-spacing: 2px;
-  margin-bottom: 20px;
+  font-size: clamp(72px, 18vw, 160px);
+  line-height: 0.88;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
   opacity: 0;
-  animation: rise 0.8s 0.4s forwards;
+  animation: rise 0.9s 0.35s forwards;
+  position: relative;
+  color: #fff;
+  text-shadow:
+    0 0 60px rgba(201,168,76,0.25),
+    0 0 120px rgba(201,168,76,0.1);
 }
+
+/* Italic serif subtitle inside h1 */
 .hero h1 em {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  color: var(--gold);
-  font-size: 0.65em;
+  color: var(--gold2);
+  font-size: 0.52em;
   display: block;
-  letter-spacing: 0;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  text-shadow:
+    0 0 40px rgba(201,168,76,0.5),
+    0 0 80px rgba(201,168,76,0.2);
 }
+
+/* Glittery gold line divider */
+.hero-divider {
+  width: 120px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold3), var(--gold), var(--gold3), transparent);
+  margin: 28px auto 32px;
+  opacity: 0;
+  animation: rise 0.8s 0.65s forwards;
+  box-shadow: 0 0 12px rgba(201,168,76,0.6);
+  position: relative;
+}
+.hero-divider::before {
+  content: '◆';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--gold);
+  font-size: 10px;
+  background: var(--dark);
+  padding: 0 8px;
+  text-shadow: 0 0 8px var(--gold);
+}
+
 .hero-sub {
-  font-size: clamp(13px, 2vw, 16px);
-  color: var(--dim);
-  max-width: 480px;
+  font-size: clamp(14px, 2.5vw, 18px);
+  color: var(--gold);
+  max-width: 540px;
   line-height: 1.9;
   margin-bottom: 40px;
   opacity: 0;
-  animation: rise 0.8s 0.6s forwards;
+  animation: rise 0.8s 0.8s forwards;
+  letter-spacing: 3px;
+  font-family: 'Bebas Neue', sans-serif;
+  text-shadow: 0 0 20px rgba(201,168,76,0.4);
+  position: relative;
 }
-.hero-divider {
-  width: 60px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  margin: 0 auto 40px;
+
+/* CTA button in hero */
+.hero-cta {
   opacity: 0;
-  animation: rise 0.8s 0.7s forwards;
+  animation: rise 0.8s 1s forwards;
+  position: relative;
 }
+.hero-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold), var(--gold2), var(--gold));
+  background-size: 200% 200%;
+  animation: shimmer 3s ease infinite;
+  color: #0a0800;
+  padding: 18px 52px;
+  border-radius: 4px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 4px;
+  text-decoration: none;
+  font-weight: 400;
+  box-shadow: 0 0 30px rgba(201,168,76,0.35), 0 4px 20px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.hero-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 50px rgba(201,168,76,0.6), 0 8px 30px rgba(0,0,0,0.5);
+}
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .scroll-hint {
   position: absolute;
   bottom: 32px;
@@ -125,16 +251,16 @@ body::after {
   align-items: center;
   gap: 8px;
   opacity: 0;
-  animation: rise 1s 1.2s forwards;
+  animation: rise 1s 1.4s forwards;
 }
 .scroll-hint span {
   font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--dim);
+  letter-spacing: 4px;
+  color: rgba(201,168,76,0.5);
   font-family: 'Bebas Neue', sans-serif;
 }
 .scroll-arrow {
-  width: 1px; height: 40px;
+  width: 1px; height: 44px;
   background: linear-gradient(180deg, var(--gold), transparent);
   animation: scrollPulse 1.8s infinite;
 }
@@ -143,7 +269,7 @@ body::after {
   50% { transform: scaleY(0.6); opacity:0.4; }
 }
 @keyframes rise {
-  from { opacity:0; transform: translateY(20px); }
+  from { opacity:0; transform: translateY(24px); }
   to   { opacity:1; transform: translateY(0); }
 }
 
@@ -556,17 +682,24 @@ footer span { color: var(--gold); }
 </style>
 </head>
 <body>
+<div class="site-ambient"></div>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-lines"></div>
+  <div class="hero-glow"></div>
+
   <div class="hero-tag">Online Coaching by Coach Anis</div>
-  <h1><em>Build Your Body</em></h1>
+
+  <h1>
+    BUILD<br>
+    <em>Your Body</em>
+  </h1>
+
   <div class="hero-divider"></div>
-  <p class="hero-sub">
-    <span style="font-family:'Bebas Neue';letter-spacing:2px;font-size:13px;color:var(--gold);opacity:0.7;">Built For You. Proven To work</span>
-  </p>
+
+  <p class="hero-sub">Built For You &nbsp;·&nbsp; Proven To Work</p>
+
   <div class="scroll-hint">
     <span>SCROLL</span>
     <div class="scroll-arrow"></div>
