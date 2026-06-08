@@ -128,12 +128,25 @@ body::after {
   opacity: 0;
   animation: rise 0.8s 0.2s forwards;
   position: relative;
+  white-space: nowrap;
 }
 .hero-tag::before, .hero-tag::after {
   content: '——';
   color: rgba(201,168,76,0.4);
-  margin: 0 12px;
+  margin: 0 10px;
   letter-spacing: 2px;
+}
+
+@media (max-width: 480px) {
+  .hero-tag {
+    font-size: 10px;
+    letter-spacing: 4px;
+    white-space: normal;
+    line-height: 1.6;
+  }
+  .hero-tag::before, .hero-tag::after {
+    display: none;
+  }
 }
 
 /* BIG main title */
@@ -154,13 +167,13 @@ body::after {
 
 /* Italic serif subtitle inside h1 */
 .hero h1 em {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
+  font-family: 'Bebas Neue', sans-serif;
+  font-style: normal;
   color: var(--gold2);
-  font-size: 0.52em;
+  font-size: 0.85em;
   display: block;
-  letter-spacing: 1px;
-  line-height: 1.2;
+  letter-spacing: 4px;
+  line-height: 0.95;
   text-shadow:
     0 0 40px rgba(201,168,76,0.5),
     0 0 80px rgba(201,168,76,0.2);
@@ -254,8 +267,8 @@ body::after {
   animation: rise 1s 1.4s forwards;
 }
 .scroll-hint span {
-  font-size: 10px;
-  letter-spacing: 4px;
+  font-size: 16px;
+  letter-spacing: 6px;
   color: rgba(201,168,76,0.5);
   font-family: 'Bebas Neue', sans-serif;
 }
@@ -271,6 +284,61 @@ body::after {
 @keyframes rise {
   from { opacity:0; transform: translateY(24px); }
   to   { opacity:1; transform: translateY(0); }
+}
+
+/* ─── MARQUEE ─── */
+.marquee-wrap {
+  width: 100%;
+  overflow: hidden;
+  border-top: 1px solid rgba(201,168,76,0.15);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  background: linear-gradient(90deg, rgba(201,168,76,0.04), rgba(201,168,76,0.08), rgba(201,168,76,0.04));
+  padding: 14px 0;
+  position: relative;
+  z-index: 2;
+}
+.marquee-wrap::before,
+.marquee-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 80px;
+  z-index: 3;
+}
+.marquee-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--dark), transparent);
+}
+.marquee-wrap::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--dark), transparent);
+}
+.marquee-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+  animation: marqueeScroll 22s linear infinite;
+}
+.marquee-track span {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 15px;
+  letter-spacing: 5px;
+  color: var(--gold);
+  padding: 0 24px;
+  white-space: nowrap;
+  opacity: 0.75;
+}
+.marquee-track .sep {
+  color: var(--gold2);
+  opacity: 0.5;
+  padding: 0;
+  font-size: 10px;
+  align-self: center;
+  letter-spacing: 0;
+}
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 /* ─── SECTION ─── */
@@ -689,7 +757,7 @@ footer span { color: var(--gold); }
   <div class="hero-bg"></div>
   <div class="hero-glow"></div>
 
-  <div class="hero-tag">Online Coaching by Coach Anis</div>
+  <div class="hero-tag">ONLINE COACHING &nbsp;·&nbsp; COACH ANIS</div>
 
   <h1>
     BUILD<br>
@@ -705,6 +773,26 @@ footer span { color: var(--gold); }
     <div class="scroll-arrow"></div>
   </div>
 </section>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>BUILD</span><span class="sep">✦</span>
+    <span>TRANSFORM</span><span class="sep">✦</span>
+    <span>COMMIT</span><span class="sep">✦</span>
+    <span>RESULTS</span><span class="sep">✦</span>
+    <span>ELEVATE</span><span class="sep">✦</span>
+    <span>DISCIPLINE</span><span class="sep">✦</span>
+    <span>COACH ANIS</span><span class="sep">✦</span>
+    <span>BUILD</span><span class="sep">✦</span>
+    <span>TRANSFORM</span><span class="sep">✦</span>
+    <span>COMMIT</span><span class="sep">✦</span>
+    <span>RESULTS</span><span class="sep">✦</span>
+    <span>ELEVATE</span><span class="sep">✦</span>
+    <span>DISCIPLINE</span><span class="sep">✦</span>
+    <span>COACH ANIS</span><span class="sep">✦</span>
+  </div>
+</div>
 
 <!-- ═══ PACKAGES ═══ -->
 <div class="section">
