@@ -366,16 +366,13 @@ body::after {
 /* ─── PACKAGES GRID ─── */
 .pkg-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 28px;
   align-items: start;
   margin-top: 50px;
-  max-width: 1180px;
+  max-width: 1300px;
   margin-left: auto;
   margin-right: auto;
-}
-@media (max-width: 1000px) {
-  .pkg-grid { grid-template-columns: repeat(2, 1fr); max-width: 780px; }
 }
 @media (max-width: 620px) {
   .pkg-grid { grid-template-columns: 1fr; }
@@ -994,6 +991,58 @@ footer span { color: var(--gold); }
 
       <a href="https://www.instagram.com/coach__anis" class="btn-pkg btn-outline" target="_blank">
 ‎        اطلب برنامجك · Get Your Program
+      </a>
+
+    </div>
+
+    <div class="pkg">
+
+      <div class="pkg-badge alt">NUTRITION ONLY · بدون متابعة</div>
+      <div class="pkg-name">باقة التغذية</div>
+      <div class="pkg-tagline">خطة غذائية مصممة بالكامل وفقًا لهدفك، احتياجاتك، وأسلوب حياتك لتحقيق أفضل النتائج بطريقة علمية وعملية</div>
+
+      <div class="pkg-price">
+        <span class="price-period">تشمل الباقة</span>
+      </div>
+
+      <ul class="pkg-features">
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">خطة غذائية مخصصة بالكامل</span>
+            <span class="feat-desc">سواء كان هدفك التنشيف، التضخيم، إعادة بناء الجسم، أو الحفاظ على الوزن، مع حساب السعرات الحرارية والماكروز بما يناسب احتياجاتك</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">اختيار الأطعمة وتوزيع الوجبات</span>
+            <span class="feat-desc">بما يتوافق مع تفضيلاتك، ميزانيتك، ونمط حياتك لضمان سهولة الالتزام</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">توصيات بالمكملات الغذائية</span>
+            <span class="feat-desc">وكل ما يخصها، مع قراءة التحاليل الطبية (إن وجدت)</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">كتاب وصفات عالية البروتين</span>
+            <span class="feat-desc">وإرشادات عملية تساعدك على الالتزام بالنظام الغذائي وتجنب الأخطاء الشائعة</span>
+          </div>
+        </li>
+
+      </ul>
+
+      <a href="https://www.instagram.com/coach__anis" class="btn-pkg btn-outline" target="_blank">
+‎        اطلب خطتك · Get Your Plan
       </a>
 
     </div>
