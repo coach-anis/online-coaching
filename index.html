@@ -366,15 +366,18 @@ body::after {
 /* ─── PACKAGES GRID ─── */
 .pkg-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 28px;
   align-items: start;
   margin-top: 50px;
-  max-width: 980px;
+  max-width: 1180px;
   margin-left: auto;
   margin-right: auto;
 }
-@media (max-width: 760px) {
+@media (max-width: 1000px) {
+  .pkg-grid { grid-template-columns: repeat(2, 1fr); max-width: 780px; }
+}
+@media (max-width: 620px) {
   .pkg-grid { grid-template-columns: 1fr; }
 }
 
@@ -939,6 +942,66 @@ footer span { color: var(--gold); }
 
       <a href="https://www.instagram.com/coach__anis" class="btn-pkg btn-outline" target="_blank">
 ‎        احجز استشارتك · Book a Call
+      </a>
+
+    </div>
+
+    <div class="pkg">
+
+      <div class="pkg-badge alt">TRAINING ONLY · بدون متابعة</div>
+      <div class="pkg-name">باقة التدريب الشخصي</div>
+      <div class="pkg-tagline">برنامج تدريبي مصمم بالكامل وفقًا لهدفك، مستواك، تشريح جسمك، وأسلوب حياتك لتحقيق أفضل النتائج بطريقة علمية وفعالة</div>
+
+      <div class="pkg-price">
+        <span class="price-period">تشمل الباقة</span>
+      </div>
+
+      <ul class="pkg-features">
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">برنامج تدريبي مخصص بالكامل</span>
+            <span class="feat-desc">بناءً على هدفك، مستواك، نقاط قوتك وضعفك، وتاريخك التدريبي</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">تحديد تفاصيل التدريب بدقة</span>
+            <span class="feat-desc">التقسيمة، حجم التدريب، شدة التدريب، عدد المجموعات والتكرارات، وفترات الراحة بما يناسب قدرتك على الاستشفاء</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">اختيار التمارين المناسبة لك</span>
+            <span class="feat-desc">حسب بيوميكانيكية جسمك، معدات النادي المتوفرة، وأي إصابات أو قيود لديك</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">خطة كارديو مخصصة</span>
+            <span class="feat-desc">تتناسب مع هدفك سواء خسارة الدهون، تحسين اللياقة، أو الحفاظ على الأداء</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">شرح طريقة تنفيذ التمارين</span>
+            <span class="feat-desc">مراجعة فيديوهات الأداء لتصحيح التقنية، تحسين الأداء وتقليل خطر الإصابات</span>
+          </div>
+        </li>
+
+      </ul>
+
+      <a href="https://www.instagram.com/coach__anis" class="btn-pkg btn-outline" target="_blank">
+‎        اطلب برنامجك · Get Your Program
       </a>
 
     </div>
