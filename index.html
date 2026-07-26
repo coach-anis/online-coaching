@@ -363,6 +363,21 @@ body::after {
 }
 .section-title span { color: var(--gold); }
 
+/* ─── PACKAGES GRID ─── */
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  align-items: start;
+  margin-top: 50px;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 760px) {
+  .pkg-grid { grid-template-columns: 1fr; }
+}
+
 /* ─── PACKAGE CARD ─── */
 .pkg {
   background: var(--dark2);
@@ -372,6 +387,9 @@ body::after {
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .pkg::before {
   content: '';
@@ -396,6 +414,11 @@ body::after {
   border-radius: 20px;
   font-family: 'Bebas Neue', sans-serif;
   margin-bottom: 24px;
+}
+.pkg-badge.alt {
+  background: transparent;
+  color: var(--gold2);
+  border: 1px solid rgba(201,168,76,0.4);
 }
 .pkg-name {
   font-size: 28px;
@@ -443,6 +466,7 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  flex-grow: 1;
 }
 .pkg-features li {
   font-size: 14px;
@@ -505,6 +529,15 @@ body::after {
 }
 .btn-solid:hover {
   box-shadow: 0 8px 28px rgba(201,168,76,0.4);
+  transform: translateY(-2px);
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.5);
+  color: var(--gold2);
+}
+.btn-outline:hover {
+  background: rgba(201,168,76,0.08);
   transform: translateY(-2px);
 }
 
@@ -781,9 +814,10 @@ footer span { color: var(--gold); }
 <!-- ═══ PACKAGES ═══ -->
 <div class="section">
   <div class="section-label">PRICING PLAN · الباقة</div>
-  <div class="section-title">الباقة الشاملة<br><span>Complete Coaching</span></div>
+  <div class="section-title">الباقات<br><span>Coaching Options</span></div>
 
-  <div style="max-width: 680px; margin: 50px auto 0;">
+  <div class="pkg-grid">
+
     <div class="pkg featured">
 
       <div class="pkg-badge">ALL INCLUSIVE · باقة شاملة</div>
@@ -864,6 +898,51 @@ footer span { color: var(--gold); }
       </a>
 
     </div>
+
+    <div class="pkg">
+
+      <div class="pkg-badge alt">ONE-TIME · استشارة</div>
+      <div class="pkg-name">باقة الاستشارة</div>
+      <div class="pkg-tagline">جلسة فردية خاصة لمدة 60 دقيقة عبر مكالمة صوتية أو فيديو، مخصصة للإجابة على استفساراتك وتقديم التوجيه المناسب</div>
+
+      <div class="pkg-price">
+        <span class="price-period">تشمل الباقة</span>
+      </div>
+
+      <ul class="pkg-features">
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">الإجابة على جميع استفساراتك</span>
+            <span class="feat-desc">الوقت بالكامل مخصص لك، ويمكنك طرح أي عدد من الأسئلة خلال مدة الجلسة</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">مساعدتك على اتخاذ القرارات الصحيحة</span>
+            <span class="feat-desc">فيما يخص التدريب والتغذية</span>
+          </div>
+        </li>
+
+        <li>
+          <span class="icon">✦</span>
+          <div>
+            <span class="feat-title">توضيح الأخطاء التي قد تؤثر على تقدمك</span>
+            <span class="feat-desc">مع تقديم حلول وتصحيح المفاهيم والمعلومات الخاطئة</span>
+          </div>
+        </li>
+
+      </ul>
+
+      <a href="https://www.instagram.com/coach__anis" class="btn-pkg btn-outline" target="_blank">
+‎        احجز استشارتك · Book a Call
+      </a>
+
+    </div>
+
   </div>
 </div>
 
