@@ -791,7 +791,7 @@ body::after {
   padding: 0 24px;
 }
 .faq-item.open .faq-a {
-  max-height: 200px;
+  max-height: 320px;
   padding: 0 24px 20px;
 }
 
@@ -943,7 +943,7 @@ footer span { color: var(--gold); }
         <li>
           <span class="icon">✦</span>
           <div>
-            <span class="feat-title">كتاب وصفات </span>
+            <span class="feat-title">كتاب وصفات عالية البروتين</span>
             <span class="feat-desc">وإرشادات عملية تساعدك على الالتزام بالنظام الغذائي وتجنب الأخطاء الشائعة</span>
           </div>
         </li>
@@ -1161,22 +1161,22 @@ footer span { color: var(--gold); }
     <div class="step">
       <div class="step-num">01</div>
       <div class="step-title">التواصل</div>
-      <div class="step-desc">ارسل رسالة عبر الانستغرام</div>
+      <div class="step-desc">أرسل كلمة COACHING عبر انستغرام واختر الباقة المناسبة</div>
     </div>
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-title">التقييم</div>
-      <div class="step-desc">استبيان شامل للتعرف عليك</div>
+      <div class="step-desc">تملأ استبيانًا شاملًا عن أهدافك، تاريخك التدريبي، حالتك الصحية، نمط حياتك، وتفضيلاتك</div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
-      <div class="step-title">البرنامج</div>
-      <div class="step-desc">يصلك البرنامج المخصص خلال مدة</div>
+      <div class="step-title">تصميم البرنامج</div>
+      <div class="step-desc">أصمم برنامجك وخطتك الغذائية بالكامل بناءً على نتائج التقييم، دون استخدام قوالب أو برامج جاهزة</div>
     </div>
     <div class="step">
       <div class="step-num">04</div>
-      <div class="step-title">النتائج</div>
-      <div class="step-desc">متابعة وتعديل مستمر حتى تصل لهدفك</div>
+      <div class="step-title">استلام البرنامج</div>
+      <div class="step-desc">تستلم خطتك مع جميع التفاصيل، الشروحات، والملفات اللازمة للبدء</div>
     </div>
   </div>
 </div>
@@ -1230,6 +1230,27 @@ footer span { color: var(--gold); }
       <div class="faq-a">نعم — البرنامج مرن وليس ثابتاً. إذا كان تمرين لا يناسبك لأي سبب، نستبدله بما يحقق نفس الهدف.</div>
     </div>
 
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>ما الفرق بين الباقات؟</span>
+        <i class="faq-icon">+</i>
+      </button>
+      <div class="faq-a">
+        التدريب: برنامج تدريبي مخصص فقط.<br>
+        التغذية: خطة غذائية مخصصة فقط.<br>
+        التدريب + التغذية: يجمع بين الاثنين.<br>
+        المتابعة: تشمل كل ما سبق مع متابعة مستمرة وتعديلات دورية.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>هل يمكنني الترقية إلى باقة المتابعة لاحقًا؟</span>
+        <i class="faq-icon">+</i>
+      </button>
+      <div class="faq-a">نعم، يمكنك البدء بأي باقة ثم الترقية إلى باقة المتابعة في أي وقت.</div>
+    </div>
+
   </div>
 </div>
 
@@ -1251,13 +1272,13 @@ footer span { color: var(--gold); }
       <span class="disclaimer-icon">⚠️</span>
       <div>
         <div class="disclaimer-label">IMPORTANT · تنبيه مهم</div>
-        <h3 class="disclaimer-title">الحالات التي تتطلب إشرافاً طبياً مباشراً</h3>
+        <h3 class="disclaimer-title">حالات لا أستطيع تقديم الخدمة لها</h3>
       </div>
     </div>
 
     <p class="disclaimer-intro">
-‎      أنا مدرب علمي متخصص في الأداء البشري، لست طبيباً. التدريب الآمن يبدأ بفهم الحدود.
-‎      إذا كنت تعاني من إحدى هذه الحالات، أرجو استشارة طبيبك المعالج أولاً قبل التواصل.
+‎      حرصًا على سلامتك، لا أستقبل الحالات التالية، لأنها تحتاج إلى إشراف طبي متخصص ومتابعة مباشرة من الطبيب المعالج.
+‎      إذا كنت تعاني من إحدى هذه الحالات، يُرجى استشارة طبيبك أولًا قبل التفكير في بدء أي برنامج تدريبي أو غذائي.
     </p>
 
     <div class="disclaimer-divider"></div>
@@ -1274,7 +1295,7 @@ footer span { color: var(--gold); }
     <div class="disclaimer-divider"></div>
 
     <p class="disclaimer-closing">
-‎      أنا لا أعالج. أنا أعدّل التدريب والتغذية ضمن الحدود الآمنة التي يحددها طبيبك.
+‎      أمتلك المعرفة العلمية لفهم تأثير هذه الحالات على التدريب والتغذية، لكن الاحترافية تعني معرفة حدود الاختصاص أيضًا. لذلك لا أقدم خدماتي للحالات التي تتطلب إشرافًا أو متابعة طبية متخصصة، لأن سلامتك أهم من أي برنامج.
     </p>
 
   </div>
