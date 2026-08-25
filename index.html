@@ -478,6 +478,44 @@ body::after {
   margin-top: 6px;
   line-height: 1.6;
 }
+.pkg-price-tiers {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 32px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+.price-tier {
+  flex: 1;
+  text-align: center;
+  padding: 12px 6px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(201,168,76,0.04);
+}
+.price-tier .tier-label {
+  display: block;
+  font-size: 11px;
+  color: var(--dim);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.price-tier .tier-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  color: var(--gold2);
+  line-height: 1;
+}
+.price-tier .tier-currency {
+  font-size: 12px;
+  color: var(--dim);
+  font-weight: 700;
+  margin-right: 2px;
+}
+@media (max-width: 480px) {
+  .pkg-price-tiers { gap: 6px; }
+  .price-tier .tier-num { font-size: 24px; }
+}
 .features-label {
   font-family: 'Bebas Neue', sans-serif;
   letter-spacing: 3px;
@@ -1317,9 +1355,22 @@ html[dir="ltr"] .compare-table td:first-child { text-align: left; }
       <div class="pkg-name" data-i18n="pkg5Name">باقة المتابعة الكاملة</div>
       <div class="pkg-tagline" data-i18n="pkg5Tag">كل ما تحتاجه في مكان واحد — علم + متابعة + نتائج حقيقية</div>
 
-      <div class="pkg-price">
-        <span class="price-num">12000</span>
-        <span class="price-currency">DA</span>
+      <div class="pkg-price-tiers">
+        <div class="price-tier">
+          <span class="tier-label" data-i18n="tier1M">شهر</span>
+          <span class="tier-num">1200</span>
+          <span class="tier-currency">DA</span>
+        </div>
+        <div class="price-tier">
+          <span class="tier-label" data-i18n="tier3M">3 أشهر</span>
+          <span class="tier-num">3000</span>
+          <span class="tier-currency">DA</span>
+        </div>
+        <div class="price-tier">
+          <span class="tier-label" data-i18n="tier6M">6 أشهر</span>
+          <span class="tier-num">5500</span>
+          <span class="tier-currency">DA</span>
+        </div>
       </div>
 
       <ul class="pkg-features">
@@ -1553,6 +1604,9 @@ const I18N = {
     pkg4Tag: "جلسة فردية خاصة لمدة 45 دقيقة عبر مكالمة صوتية أو فيديو، مخصصة للإجابة على استفساراتك وتقديم التوجيه المناسب",
     pkg5Name: "باقة المتابعة الكاملة",
     pkg5Tag: "كل ما تحتاجه في مكان واحد — علم + متابعة + نتائج حقيقية",
+    tier1M: "شهر",
+    tier3M: "3 أشهر",
+    tier6M: "6 أشهر",
     p1f1t: "برنامج تدريبي مخصص بالكامل",
     p1f1d: "بناءً على هدفك، مستواك، نقاط قوتك وضعفك، وتاريخك التدريبي",
     p1f2t: "تحديد تفاصيل التدريب بدقة",
@@ -1664,6 +1718,9 @@ const I18N = {
     pkg4Tag: "Séance individuelle de 45 minutes en appel audio ou vidéo, dédiée à vos questions et à un accompagnement ciblé",
     pkg5Name: "Suivi complet",
     pkg5Tag: "Tout ce dont vous avez besoin — science + suivi + vrais résultats",
+    tier1M: "1 mois",
+    tier3M: "3 mois",
+    tier6M: "6 mois",
     p1f1t: "Programme d'entraînement 100% personnalisé",
     p1f1d: "Selon votre objectif, niveau, forces, faiblesses et historique d'entraînement",
     p1f2t: "Détails d'entraînement précis",
@@ -1775,6 +1832,9 @@ const I18N = {
     pkg4Tag: "A private 45-minute one-on-one session via voice or video call, dedicated to your questions and clear guidance",
     pkg5Name: "Full Follow-Up Package",
     pkg5Tag: "Everything you need in one place — science + coaching + real results",
+    tier1M: "1 Month",
+    tier3M: "3 Months",
+    tier6M: "6 Months",
     p1f1t: "Fully customized training program",
     p1f1d: "Based on your goal, level, strengths, weaknesses, and training history",
     p1f2t: "Precise training details",
