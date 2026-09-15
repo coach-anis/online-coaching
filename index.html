@@ -377,7 +377,7 @@ body::after {
 
 /* ─── SECTION ─── */
 .section {
-  max-width: 1100px;
+  max-width: 1320px;
   margin: 0 auto;
   padding: 80px 24px;
 }
@@ -400,16 +400,26 @@ body::after {
 /* ─── PACKAGES GRID ─── */
 .pkg-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 28px;
-  align-items: start;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
   margin-top: 50px;
-  max-width: 1300px;
+  width: 100%;
+  max-width: none;
   margin-left: auto;
   margin-right: auto;
 }
+@media (max-width: 1100px) {
+  .pkg-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+  }
+}
 @media (max-width: 620px) {
-  .pkg-grid { grid-template-columns: 1fr; }
+  .pkg-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 
 /* ─── PACKAGE CARD ─── */
@@ -1485,7 +1495,42 @@ body.light .detail-forwho {
   display: none !important;
 }
 .pkg {
-  padding: 32px 28px 28px;
+  padding: 28px 16px 22px;
+  min-width: 0;
+}
+@media (min-width: 1101px) {
+  .pkg {
+    padding: 24px 12px 18px;
+  }
+  .pkg-name {
+    font-size: 20px;
+  }
+  .pkg-badge {
+    font-size: 8px;
+    padding: 4px 10px;
+    margin-bottom: 16px;
+  }
+  .pkg-forwho {
+    font-size: 11.5px;
+    padding: 8px 9px;
+    margin-bottom: 14px;
+  }
+  .pkg-price-tiers {
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .price-tier {
+    padding: 10px 3px;
+  }
+  .price-tier .tier-num {
+    font-size: 24px;
+  }
+  .price-tier .tier-label {
+    font-size: 10px;
+  }
+  .tier-save {
+    font-size: 10px;
+  }
 }
 .pkg-tagline {
   margin-bottom: 24px;
