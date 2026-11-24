@@ -2069,9 +2069,8 @@ html[dir="ltr"] .ig-top { left: 68px; right: auto; }
       <div class="order-success-icon">✓</div>
       <h3 data-i18n="orderSuccessTitle">شكراً لطلبك</h3>
       <p data-i18n="orderSuccessDesc">تم استلام طلبك بنجاح. سنتواصل معك قريباً عبر واتساب لتأكيد التفاصيل وبدء رحلتك.</p>
-      <p id="orderSuccessFallbackNote" style="display:none;color:#e8b84a;font-size:14px;margin-top:10px;line-height:1.6">
-        تعذر الإرسال التلقائي، فتحنا لك واتساب — اضغط «إرسال» داخل واتساب لإتمام الطلب.
-      </p>
+      <p id="orderSuccessFallbackNote" style="display:none;color:#e8b84a;font-size:14px;margin-top:10px;line-height:1.6"></p>
+      <a id="orderWaLink" class="order-submit" href="#" target="_blank" rel="noopener" style="display:none;text-decoration:none;text-align:center;margin-top:12px"></a>
       <div class="order-actions" style="margin-top:16px">
         <button type="button" class="order-submit" onclick="closeOrderForm()" data-i18n="orderClose">حسناً</button>
       </div>
@@ -3085,6 +3084,8 @@ function openOrderForm(pkgId) {
   if (phoneInp) phoneInp.classList.remove('invalid');
   const fbNote = document.getElementById('orderSuccessFallbackNote');
   if (fbNote) fbNote.style.display = 'none';
+  const waLinkReset = document.getElementById('orderWaLink');
+  if (waLinkReset) waLinkReset.style.display = 'none';
 
   document.getElementById('orderModal').classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -3208,40 +3209,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     try {
       const fd = new FormData(form);
-      // Prefer AJAX endpoint when possible
-      let action = form.action || '';
-      if (action.indexOf('formsubmit.co/') !== -1 && action.indexOf('/ajax/') === -1) {
-        action = action.replace('https://formsubmit.co/', 'https://formsubmit.co/ajax/');
+      let ok = false;
+      if (fd.get('_honey')) {
+        ok = true; // bot: pretend success, send nothing
+      } else {
+        ok = await sendOrderEverywhere(fd, form.action);
       }
-      const res = await fetch(action, {
-        method: 'POST',
-        body: fd,
-        headers: { 'Accept': 'application/json' }
-      });
-      let data = null;
-      try { data = await res.json(); } catch (x) {}
-      const ok = res.ok && data && (data.success === true || data.success === 'true');
-      if (ok || (res.ok && !data)) {
-        // If response is ok but no JSON, treat as success (some FormSubmit modes)
-        if (data && !(data.success === true || data.success === 'true') && data.success === 'false') {
-          throw new Error('FormSubmit rejected');
-        }
+      if (ok) {
         form.classList.add('hidden');
         const success = document.getElementById('orderSuccess');
         if (success) {
           const h3 = success.querySelector('h3');
-          const p = success.querySelector('p[data-i18n="orderSuccessDesc"], p:not(#orderSuccessFallbackNote)');
+          const p = success.querySelector('p[data-i18n="orderSuccessDesc"]');
           if (h3) h3.textContent = t.orderSuccessTitle || h3.textContent;
-          if (p) p.textContent = t.orderSuccessDesc || p.textContent;
+          if (p) { p.textContent = t.orderSuccessDesc || p.textContent; p.style.display = ''; }
           const note = document.getElementById('orderSuccessFallbackNote');
           if (note) note.style.display = 'none';
+          const wa = document.getElementById('orderWaLink');
+          if (wa) wa.style.display = 'none';
           success.classList.add('active');
         }
       } else {
         fallbackWhatsApp();
       }
     } catch (err) {
-      console.error('Order submit failed, falling back to WhatsApp:', err);
+      console.error('Order submit failed:', err);
       fallbackWhatsApp();
     } finally {
       if (submitBtn) {
@@ -3277,31 +3269,76 @@ function buildOrderMessage() {
   return body;
 }
 
+// ─── Web3Forms access key: get it free at https://web3forms.com ───
+const WEB3FORMS_KEY = '751c342c-ae38-4ca4-bbd7-5fb673f50887';
+const ORDER_TIMEOUT_MS = 8000;
+
+async function sendViaFormSubmit(fd, action) {
+  let url = action || '';
+  if (url.indexOf('formsubmit.co/') !== -1 && url.indexOf('/ajax/') === -1) {
+    url = url.replace('https://formsubmit.co/', 'https://formsubmit.co/ajax/');
+  }
+  const res = await fetch(url, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+  let data = null;
+  try { data = await res.json(); } catch (x) {}
+  return !!(res.ok && data && (data.success === true || data.success === 'true'));
+}
+
+async function sendViaWeb3Forms(fd) {
+  if (!WEB3FORMS_KEY || WEB3FORMS_KEY.indexOf('PUT_YOUR') === 0) return false;
+  const payload = { access_key: WEB3FORMS_KEY, subject: 'طلب باقة تدريب — Coach Anis', from_name: 'Coach Anis Website' };
+  fd.forEach(function(v, k) { if (k.charAt(0) !== '_') payload[k] = v; });
+  const res = await fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  let data = null;
+  try { data = await res.json(); } catch (x) {}
+  return !!(res.ok && data && data.success === true);
+}
+
+// Sends to both services in parallel. Succeeds as soon as ONE confirms; fails if both fail or time out.
+function sendOrderEverywhere(fd, action) {
+  const jobs = [
+    sendViaWeb3Forms(fd),
+    sendViaFormSubmit(fd, action)
+  ];
+  return new Promise(function(resolve) {
+    let pending = jobs.length, done = false;
+    const finish = function(v) { if (!done) { done = true; clearTimeout(timer); resolve(v); } };
+    const timer = setTimeout(function() { finish(false); }, ORDER_TIMEOUT_MS);
+    const failOne = function() { if (--pending === 0) finish(false); };
+    jobs.forEach(function(p) {
+      p.then(function(ok) { if (ok) finish(true); else failOne(); }).catch(function(e) { console.warn('send failed:', e); failOne(); });
+    });
+  });
+}
+
+// Shown only when sending could not be confirmed. A real link = direct user tap, so it is never blocked.
 function fallbackWhatsApp() {
   const WHATSAPP_NUMBER = '213655823870';
-  const msg = buildOrderMessage();
-  const waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
-  try {
-    window.open(waUrl, '_blank');
-  } catch (e) {
-    window.location.href = waUrl;
-  }
+  const waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(buildOrderMessage());
+  const texts = {
+    ar: { title: 'لم نتمكن من تأكيد الإرسال', note: 'لم يصلنا طلبك بعد. اضغط الزر أدناه لإرساله عبر واتساب.', btn: 'إرسال الطلب عبر واتساب' },
+    fr: { title: "Envoi non confirmé", note: "Votre demande n'a pas pu être confirmée. Appuyez sur le bouton pour l'envoyer via WhatsApp.", btn: 'Envoyer via WhatsApp' },
+    en: { title: 'Could not confirm sending', note: 'We could not confirm your request. Tap the button below to send it via WhatsApp.', btn: 'Send via WhatsApp' }
+  };
+  const tx = texts[currentLang] || texts.ar;
   const form = document.getElementById('orderForm');
   const success = document.getElementById('orderSuccess');
   const note = document.getElementById('orderSuccessFallbackNote');
-  const t = I18N[currentLang] || I18N.ar;
+  const wa = document.getElementById('orderWaLink');
   if (form) form.classList.add('hidden');
   if (success) {
     const h3 = success.querySelector('h3');
     const p = success.querySelector('p[data-i18n="orderSuccessDesc"]');
-    if (h3) h3.textContent = t.orderSuccessTitle || h3.textContent;
-    if (p) p.textContent = t.orderSuccessDesc || p.textContent;
+    if (h3) h3.textContent = tx.title;
+    if (p) p.style.display = 'none';
     success.classList.add('active');
   }
-  if (note) {
-    note.style.display = 'block';
-    note.textContent = t.orderFallbackNote || 'تعذر الإرسال التلقائي، فتحنا لك واتساب — اضغط «إرسال» داخل واتساب لإتمام الطلب.';
-  }
+  if (note) { note.style.display = 'block'; note.textContent = tx.note; }
+  if (wa) { wa.href = waUrl; wa.textContent = tx.btn; wa.style.display = 'block'; }
 }
 function fallbackMailto() { fallbackWhatsApp(); }
 
