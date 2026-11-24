@@ -3269,6 +3269,20 @@ function buildOrderMessage() {
   return body;
 }
 
+// ─── Silent backup: saves the order to Google Sheet + Telegram + email via Apps Script ───
+var BACKUP_URL = 'https://script.google.com/macros/s/AKfycbxHAh1GuDGhQ9K73fDWbrzOjnX7clXnOyk4VHrtoARXWz2n74XHxkITUoBAxhxKclW2/exec';
+function sendBackupToSheet(site, fields) {
+  try {
+    fetch(BACKUP_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ site: site, fields: fields }),
+      keepalive: true
+    }).catch(function(){});
+  } catch (e) {}
+}
+
 // ─── Web3Forms access key: get it free at https://web3forms.com ───
 const WEB3FORMS_KEY = '751c342c-ae38-4ca4-bbd7-5fb673f50887';
 const ORDER_TIMEOUT_MS = 8000;
@@ -3300,6 +3314,7 @@ async function sendViaWeb3Forms(fd) {
 
 // Sends to both services in parallel. Succeeds as soon as ONE confirms; fails if both fail or time out.
 function sendOrderEverywhere(fd, action) {
+  (function () { var f = {}; fd.forEach(function (v, k) { if (k.charAt(0) !== '_') f[k] = v; }); sendBackupToSheet('Coaching', f); })();
   const jobs = [
     sendViaWeb3Forms(fd),
     sendViaFormSubmit(fd, action)
