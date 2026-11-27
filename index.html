@@ -2070,8 +2070,7 @@ html[dir="ltr"] .ig-top { left: 68px; right: auto; }
       <h3 data-i18n="orderSuccessTitle">شكراً لطلبك</h3>
       <p data-i18n="orderSuccessDesc">تم استلام طلبك بنجاح. سنتواصل معك قريباً عبر واتساب لتأكيد التفاصيل وبدء رحلتك.</p>
       <p id="orderSuccessFallbackNote" style="display:none;color:#e8b84a;font-size:14px;margin-top:10px;line-height:1.6"></p>
-      <a id="orderWaLink" class="order-submit" href="#" target="_blank" rel="noopener" style="display:none;text-decoration:none;text-align:center;margin-top:12px"></a>
-      <div class="order-actions" style="margin-top:16px">
+            <div class="order-actions" style="margin-top:16px">
         <button type="button" class="order-submit" onclick="closeOrderForm()" data-i18n="orderClose">حسناً</button>
       </div>
     </div>
@@ -3084,8 +3083,6 @@ function openOrderForm(pkgId) {
   if (phoneInp) phoneInp.classList.remove('invalid');
   const fbNote = document.getElementById('orderSuccessFallbackNote');
   if (fbNote) fbNote.style.display = 'none';
-  const waLinkReset = document.getElementById('orderWaLink');
-  if (waLinkReset) waLinkReset.style.display = 'none';
 
   document.getElementById('orderModal').classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -3225,16 +3222,14 @@ document.addEventListener('DOMContentLoaded', function() {
           if (p) { p.textContent = t.orderSuccessDesc || p.textContent; p.style.display = ''; }
           const note = document.getElementById('orderSuccessFallbackNote');
           if (note) note.style.display = 'none';
-          const wa = document.getElementById('orderWaLink');
-          if (wa) wa.style.display = 'none';
           success.classList.add('active');
         }
       } else {
-        fallbackWhatsApp();
+        showOrderFailure();
       }
     } catch (err) {
       console.error('Order submit failed:', err);
-      fallbackWhatsApp();
+      showOrderFailure();
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
@@ -3330,32 +3325,15 @@ function sendOrderEverywhere(fd, action) {
   });
 }
 
-// Shown only when sending could not be confirmed. A real link = direct user tap, so it is never blocked.
-function fallbackWhatsApp() {
-  const WHATSAPP_NUMBER = '213655823870';
-  const waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(buildOrderMessage());
+// Shown only when sending could not be confirmed: keep the form so the user can retry.
+function showOrderFailure() {
   const texts = {
-    ar: { title: 'لم نتمكن من تأكيد الإرسال', note: 'لم يصلنا طلبك بعد. اضغط الزر أدناه لإرساله عبر واتساب.', btn: 'إرسال الطلب عبر واتساب' },
-    fr: { title: "Envoi non confirmé", note: "Votre demande n'a pas pu être confirmée. Appuyez sur le bouton pour l'envoyer via WhatsApp.", btn: 'Envoyer via WhatsApp' },
-    en: { title: 'Could not confirm sending', note: 'We could not confirm your request. Tap the button below to send it via WhatsApp.', btn: 'Send via WhatsApp' }
+    ar: 'لم نتمكن من تأكيد إرسال طلبك. يرجى التحقق من اتصالك بالإنترنت وإعادة المحاولة.',
+    fr: "Nous n'avons pas pu confirmer l'envoi de votre demande. Vérifiez votre connexion et réessayez.",
+    en: 'We could not confirm that your request was sent. Please check your connection and try again.'
   };
-  const tx = texts[currentLang] || texts.ar;
-  const form = document.getElementById('orderForm');
-  const success = document.getElementById('orderSuccess');
-  const note = document.getElementById('orderSuccessFallbackNote');
-  const wa = document.getElementById('orderWaLink');
-  if (form) form.classList.add('hidden');
-  if (success) {
-    const h3 = success.querySelector('h3');
-    const p = success.querySelector('p[data-i18n="orderSuccessDesc"]');
-    if (h3) h3.textContent = tx.title;
-    if (p) p.style.display = 'none';
-    success.classList.add('active');
-  }
-  if (note) { note.style.display = 'block'; note.textContent = tx.note; }
-  if (wa) { wa.href = waUrl; wa.textContent = tx.btn; wa.style.display = 'block'; }
+  alert(texts[currentLang] || texts.ar);
 }
-function fallbackMailto() { fallbackWhatsApp(); }
 
 
 
